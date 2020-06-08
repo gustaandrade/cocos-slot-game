@@ -11,7 +11,6 @@ export default class SlotRound {
     };
 
     const roundRng = Math.random();
-    console.log(roundRng);
 
     if (roundRng <= 0.5) {
       result = this.randomLines(tiles, reels);
@@ -49,9 +48,12 @@ export default class SlotRound {
           res.reels[j][i] = res.jackpotTile;
         }
       } else {
-        const unequalLine: Array<number> = this.createRandomLine(tiles, reels);
+        const differentTile: Array<number> = this.createDifferentLine(
+          tiles,
+          reels
+        );
         for (let j = 0; j < reels; ++j) {
-          res.reels[j][i] = unequalLine[j];
+          res.reels[j][i] = differentTile[j];
         }
       }
     }
@@ -59,18 +61,21 @@ export default class SlotRound {
     return res;
   }
 
-  private static createRandomLine(tiles: number, reels: number): Array<number> {
+  private static createDifferentLine(
+    tiles: number,
+    reels: number
+  ): Array<number> {
     const res = [];
-    const uniqueValues = [];
+    const diff = [];
 
     for (let j = 0; j < reels; ++j) {
       res[j] = Math.floor(Math.random() * tiles);
-      if (!uniqueValues.some(e => e === res[j])) {
-        uniqueValues.push(res[j]);
+      if (!diff.some(e => e === res[j])) {
+        diff.push(res[j]);
       }
     }
 
-    if (uniqueValues.length <= 1) {
+    if (diff.length <= 1) {
       const position = Math.floor(Math.random() * this.length);
       const value = Math.floor(Math.random() * this.length);
       res[position] = value;
