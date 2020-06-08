@@ -139,8 +139,9 @@
     "audioClick": {
       "__uuid__": "1e510565-b4bd-4a60-abbb-40cf59de10d5"
     },
-    "totalTiles": 30,
-    "totalReels": 5,
+    "tilePrefab": {
+      "__uuid__": "a75a6cdf-ea63-4dea-af63-4cc3bf7305ac"
+    },
     "_id": "c1/On+kmJPrbn61APvRgto"
   },
   {

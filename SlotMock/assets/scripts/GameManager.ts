@@ -11,17 +11,9 @@ export default class GameManager extends cc.Component {
   @property({ type: cc.AudioClip })
   audioClick = null;
 
-  @property({ type: cc.Integer })
-  totalTiles = 30;
-
-  @property({ type: cc.Integer })
-  totalReels = 5;
-
   private block = false;
 
   private result = null;
-
-  private _reelCount = 0;
 
   start(): void {
     this.machine.getComponent('Machine').createMachine();
@@ -56,10 +48,9 @@ export default class GameManager extends cc.Component {
     return new Promise<SlotResultProps>(resolve => {
       setTimeout(() => {
         const result: SlotResultProps = SlotRound.next(
-          this.totalTiles,
-          this.totalReels
+          this.machine.getComponent('Machine').numberOfTiles,
+          this.machine.getComponent('Machine').numberOfReels
         );
-        console.log(result);
         resolve(result);
       }, 1000 + 500 * Math.random());
     });

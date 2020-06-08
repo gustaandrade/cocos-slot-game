@@ -41,6 +41,18 @@ export default class Machine extends cc.Component {
     }
   }
 
+  @property({ type: cc.Integer })
+  public _numberOfTiles = 30;
+
+  @property({ type: cc.Integer, range: [5, 30], slide: true })
+  get numberOfTiles(): number {
+    return this._numberOfTiles;
+  }
+
+  set numberOfTiles(newNumber: number) {
+    this._numberOfTiles = newNumber;
+  }
+
   private reels = [];
 
   public spinning = false;

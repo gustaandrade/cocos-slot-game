@@ -6,8 +6,8 @@ export default class SlotRound {
   public static next(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: [],
-      equalLines: [],
-      equalTile: 0
+      jackpotLines: [],
+      jackpotTile: 0
     };
 
     const roundRng = Math.random();
@@ -44,9 +44,9 @@ export default class SlotRound {
     const res = result;
 
     for (let i = 0; i < 3; ++i) {
-      if (res.equalLines.some(e => e === i)) {
+      if (res.jackpotLines.some(e => e === i)) {
         for (let j = 0; j < reels; ++j) {
-          res.reels[j][i] = res.equalTile;
+          res.reels[j][i] = res.jackpotTile;
         }
       } else {
         const unequalLine: Array<number> = this.createRandomLine(tiles, reels);
@@ -82,8 +82,8 @@ export default class SlotRound {
   private static randomLines(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: this.createReel(reels),
-      equalLines: [],
-      equalTile: -1
+      jackpotLines: [],
+      jackpotTile: null
     };
 
     result = this.populateReels(result, tiles, reels);
@@ -94,8 +94,8 @@ export default class SlotRound {
   private static singleJackpot(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: this.createReel(reels),
-      equalLines: [Math.floor(Math.random() * 3)],
-      equalTile: Math.floor(Math.random() * tiles)
+      jackpotLines: [1],
+      jackpotTile: Math.floor(Math.random() * tiles)
     };
 
     result = this.populateReels(result, tiles, reels);
@@ -106,16 +106,11 @@ export default class SlotRound {
   private static doubleJackpot(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: this.createReel(reels),
-      equalLines: [],
-      equalTile: Math.floor(Math.random() * tiles)
+      jackpotLines: [1],
+      jackpotTile: Math.floor(Math.random() * tiles)
     };
 
-    const differentLine = Math.floor(Math.random() * 3);
-    for (let i = 0; i < 3; i++) {
-      if (i !== differentLine) {
-        result.equalLines.push(i);
-      }
-    }
+    result.jackpotLines.push(Math.floor(Math.random() * 2) <= 1 ? 0 : 1);
 
     result = this.populateReels(result, tiles, reels);
 
@@ -125,13 +120,9 @@ export default class SlotRound {
   private static tripleJackpot(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: this.createReel(reels),
-      equalLines: [],
-      equalTile: Math.floor(Math.random() * tiles)
+      jackpotLines: [0, 1, 2],
+      jackpotTile: Math.floor(Math.random() * tiles)
     };
-
-    for (let i = 0; i < 3; ++i) {
-      result.equalLines.push(i);
-    }
 
     result = this.populateReels(result, tiles, reels);
 
