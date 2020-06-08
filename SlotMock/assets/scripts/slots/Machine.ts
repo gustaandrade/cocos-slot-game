@@ -78,6 +78,7 @@ export default class Machine extends cc.Component {
   spin(): void {
     this.spinning = true;
     this.button.getChildByName('Label').getComponent(cc.Label).string = 'STOP';
+    this.glow();
 
     for (let i = 0; i < this.numberOfReels; i += 1) {
       const theReel = this.reels[i].getComponent('Reel');
@@ -111,7 +112,34 @@ export default class Machine extends cc.Component {
 
       setTimeout(() => {
         theReel.readyStop(result.reels[i]);
+        this.glow(result, theReel);
       }, spinDelay * 1000);
+    }
+  }
+
+  glow(result?: SlotResultProps, reel?: any): void {
+    let reelTiles: Array<cc.Node> = [];
+
+    if (result && result.jackpotLines.length > 0) {
+      reelTiles = reel.node.getChildByName('In').getChildren();
+
+      for (let j = 0; j < reelTiles.length; j++) {
+        if (result.jackpotLines.some(e => e + 1 === j)) {
+          reelTiles[j]
+            .getChildByName('Spine')
+            .getComponent('sp.Skeleton').animation = 'loop';
+        }
+      }
+    } else {
+      for (let i = 0; i < this.reels.length; i++) {
+        reelTiles = this.reels[i].getChildByName('In').getChildren();
+
+        for (let j = 0; j < reelTiles.length; j++) {
+          reelTiles[i]
+            .getChildByName('Spine')
+            .getComponent('sp.Skeleton').animation = null;
+        }
+      }
     }
   }
 }
