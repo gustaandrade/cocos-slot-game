@@ -1,4 +1,5 @@
 import Aux from '../SlotEnum';
+import { SlotResultProps } from '../SlotTypes';
 
 const { ccclass, property } = cc._decorator;
 
@@ -83,11 +84,12 @@ export default class Machine extends cc.Component {
     this.button.getComponent(cc.Button).interactable = false;
   }
 
-  stop(result: Array<Array<number>> = null): void {
+  stop(result: SlotResultProps = null): void {
     setTimeout(() => {
       this.spinning = false;
       this.button.getComponent(cc.Button).interactable = true;
-      this.button.getChildByName('Label').getComponent(cc.Label).string = 'SPIN';
+      this.button.getChildByName('Label').getComponent(cc.Label).string =
+        'SPIN';
     }, 2500);
 
     const rngMod = Math.random() / 2;
@@ -96,7 +98,7 @@ export default class Machine extends cc.Component {
       const theReel = this.reels[i].getComponent('Reel');
 
       setTimeout(() => {
-        theReel.readyStop(result[i]);
+        theReel.readyStop(result.reels[i]);
       }, spinDelay * 1000);
     }
   }

@@ -1,3 +1,6 @@
+import SlotRound from './SlotRound';
+import { SlotResultProps } from './SlotTypes';
+
 const { ccclass, property } = cc._decorator;
 
 @ccclass
@@ -8,9 +11,17 @@ export default class GameManager extends cc.Component {
   @property({ type: cc.AudioClip })
   audioClick = null;
 
+  @property({ type: cc.Integer })
+  totalTiles = 30;
+
+  @property({ type: cc.Integer })
+  totalReels = 5;
+
   private block = false;
 
   private result = null;
+
+  private _reelCount = 0;
 
   start(): void {
     this.machine.getComponent('Machine').createMachine();
@@ -41,11 +52,15 @@ export default class GameManager extends cc.Component {
     this.result = await this.getAnswer();
   }
 
-  getAnswer(): Promise<Array<Array<number>>> {
-    const slotResult = [];
-    return new Promise<Array<Array<number>>>(resolve => {
+  getAnswer(): Promise<SlotResultProps> {
+    return new Promise<SlotResultProps>(resolve => {
       setTimeout(() => {
-        resolve(slotResult);
+        const result: SlotResultProps = SlotRound.next(
+          this.totalTiles,
+          this.totalReels
+        );
+        console.log(result);
+        resolve(result);
       }, 1000 + 500 * Math.random());
     });
   }
