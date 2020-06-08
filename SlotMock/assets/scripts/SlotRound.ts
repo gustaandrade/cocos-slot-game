@@ -12,6 +12,7 @@ export default class SlotRound {
 
     const roundRng = Math.random();
 
+    // decides the rng behaviour based on the values
     if (roundRng <= 0.5) {
       result = this.randomLines(tiles, reels);
     } else if (roundRng <= 0.83) {

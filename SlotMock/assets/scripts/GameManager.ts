@@ -44,6 +44,8 @@ export default class GameManager extends cc.Component {
     this.result = await this.getAnswer();
   }
 
+  // creates a script that handles the RNG for the round and sends it to the
+  // machine, so they can handle the tiles
   getAnswer(): Promise<SlotResultProps> {
     return new Promise<SlotResultProps>(resolve => {
       setTimeout(() => {

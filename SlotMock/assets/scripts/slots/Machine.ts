@@ -117,6 +117,9 @@ export default class Machine extends cc.Component {
     }
   }
 
+  // i tried to make the glow work by finding which tiles have the same index as
+  // the jackpot lines index, but unfortunately, that didn't work
+  // but i'll leave the ideia for the code here anyway
   glow(result?: SlotResultProps, reel?: any): void {
     let reelTiles: Array<cc.Node> = [];
 
