@@ -1,4 +1,5 @@
 import Aux from '../SlotEnum';
+import { SlotResultProps } from '../SlotTypes';
 
 const { ccclass, property } = cc._decorator;
 
@@ -52,7 +53,8 @@ export default class Reel extends cc.Component {
   }
 
   readyStop(newResult: Array<number>): void {
-    const check = this.spinDirection === Aux.Direction.Down || newResult == null;
+    const check =
+      this.spinDirection === Aux.Direction.Down || newResult == null;
     this.result = check ? newResult : newResult.reverse();
     this.stopSpinning = true;
   }
@@ -93,9 +95,17 @@ export default class Reel extends cc.Component {
       const dirModifier = this.spinDirection === Aux.Direction.Down ? -1 : 1;
 
       const delay = cc.tween(element).delay(windUp);
-      const start = cc.tween(element).by(0.25, { position: cc.v2(0, 144 * dirModifier) }, { easing: 'backIn' });
+      const start = cc
+        .tween(element)
+        .by(
+          0.25,
+          { position: cc.v2(0, 144 * dirModifier) },
+          { easing: 'backIn' }
+        );
       const doChange = cc.tween().call(() => this.changeCallback(element));
-      const callSpinning = cc.tween(element).call(() => this.doSpinning(element, 5));
+      const callSpinning = cc
+        .tween(element)
+        .call(() => this.doSpinning(element, 5));
 
       delay
         .then(start)
@@ -119,9 +129,17 @@ export default class Reel extends cc.Component {
   doStop(element: cc.Node = null): void {
     const dirModifier = this.spinDirection === Aux.Direction.Down ? -1 : 1;
 
-    const move = cc.tween(element).by(0.04, { position: cc.v2(0, 144 * dirModifier) });
+    const move = cc
+      .tween(element)
+      .by(0.04, { position: cc.v2(0, 144 * dirModifier) });
     const doChange = cc.tween().call(() => this.changeCallback(element));
-    const end = cc.tween().by(0.2, { position: cc.v2(0, 144 * dirModifier) }, { easing: 'bounceOut' });
+    const end = cc
+      .tween()
+      .by(
+        0.2,
+        { position: cc.v2(0, 144 * dirModifier) },
+        { easing: 'bounceOut' }
+      );
 
     move
       .then(doChange)

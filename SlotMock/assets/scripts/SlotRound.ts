@@ -111,11 +111,15 @@ export default class SlotRound {
   private static doubleJackpot(tiles: number, reels: number): SlotResultProps {
     let result: SlotResultProps = {
       reels: this.createReel(reels),
-      jackpotLines: [1],
+      jackpotLines: [0, 1, 2],
       jackpotTile: Math.floor(Math.random() * tiles)
     };
 
-    result.jackpotLines.push(Math.floor(Math.random() * 2) <= 1 ? 0 : 1);
+    if (Math.random() <= 0.5) {
+      result.jackpotLines.shift();
+    } else {
+      result.jackpotLines.pop();
+    }
 
     result = this.populateReels(result, tiles, reels);
 
